@@ -8,18 +8,20 @@ import update from 'react-addons-update';//배열을 효율적으로 수정할�
 //npm install --save axios
 import axios from 'axios'
 //리액트 라우터를 사용하기위함(다중페이지)
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { Link, Switch } from 'react-router-dom';
 
+import Header from './Header';
 import LoginPage from './LoginPage';
 import Visualizer from './Visualizer';
 import MainPage from './MainPage';
-import AuthRoute from './AuthRoute';
+import Create from './Create';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.max_music_id = 0;
     this.state = {
       visualizeSet: {
         circle: 2 * Math.PI,
@@ -28,11 +30,13 @@ class App extends Component {
         objCount: 97,
         data: [],
       },
+      playdata:[],
       login: false,
     };
     this.audiohandler = this.audiohandler.bind(this);
     this.visualizing = this.visualizing.bind(this);
     this.Debug_LoginCheck = this.Debug_LoginCheck.bind(this);
+    this.fileChange = this.fileChange.bind(this);
 
 
     // initialState
@@ -58,7 +62,7 @@ class App extends Component {
       this.setState({
         login: true
       });
-      
+
     }
   }
 
@@ -88,30 +92,60 @@ class App extends Component {
     analyser.connect(audioContext.destination);
   }
 
+  fileChange(e) {
+    const files = e.target.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const dataFile = URL.createObjectURL(file);
+      //오디오 메타데이터를 읽어옴
+      jsmediatags.read(file, {
+        onSuccess: (tag) => {
+          const tags = tag.tags;
+          const tagTitle = tags.title;
+
+        }  
+      })
+      var playlist= this.state.playdata.concat(
+        {id:++this.max_music_id,src:dataFile}
+      );
+      this.setState({
+        playdata: playlist
+      });
+    }
+  }
+
 
 
   render() {
     return (
       <div className="wrapper">
-        <Router>
-          {/*component도 있지만 render가 더 효율적이라한다*/}
-          <Route exact path='/' render={() =>
-            <LoginPage login={this.Debug_LoginCheck} />
-          } />
-          <Route exact path='/' render={() =>
-            <Visualizer
-              class='visualizer'
-              color='rgb(229, 206, 208)'
-              settings={this.state.visualizeSet}
-              isMounted={this.visualizing}
-              handlePlay={this.audiohandler}
-            />} />
+        <Header />
+        {/*component도 있지만 render가 더 효율적이라한다*/}
+        <Route exact path='/' render={() =>
+          <LoginPage login={this.Debug_LoginCheck} />
+        } />
+        <Route exact path='/' render={() =>
+          <Visualizer
+            class='visualizer'
+            color='rgb(229, 206, 208)'
+            settings={this.state.visualizeSet}
+            isMounted={this.visualizing}
+            handlePlay={this.audiohandler}
+          />} />
 
 
-          <Route path='/main' render={() =>
-            <MainPage />
-          } />
-        </Router>
+        <Route path='/main' render={() =>
+          <MainPage />
+        } />
+
+        <Route path='/create' render={() =>
+          <Create
+            fileChange = {this.fileChange}
+            music_length = {this.max_music_id}
+            data = {this.state.playdata}
+            //handlePlay = {this.audiohandler}
+          />
+        } />
 
 
 

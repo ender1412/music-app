@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+//npm install react-slick
+//손으로 페이지넘기는 라이브러리
+//import Slider from 'react-slick';
+//import Slider from 'react-slider';
 
 class Visualizer extends Component {
     componentDidMount() {//컴포넌트가 생성되고 render()이후 호출
@@ -10,13 +14,16 @@ class Visualizer extends Component {
 
         if (visualizerScale > 1) {
             document.getElementById('visualizer').style.transform = `scale(${visualizerScale})`;
-            
+
         }
     }
-    
+    ChangeVolume(e){
+        document.getElementById('audio').volume=e.target.value;
+    }
+
     render() {
         //색상팔레트
-        var pallet = [ "#F15F5F", "#F29661", "#F2CB61", "#E5D85C", "#BCE55C", "#86E57F", "#5CD1E5", "#6799FF", "#6B66FF", "#A566FF", "#F361DC", "#F361A6", "#A6A6A6", "#8C8C8C"];
+        var pallet = ["#F15F5F", "#F29661", "#F2CB61", "#E5D85C", "#BCE55C", "#86E57F", "#5CD1E5", "#6799FF", "#6B66FF", "#A566FF", "#F361DC", "#F361A6", "#A6A6A6", "#8C8C8C"];
         // var pallet = ["#FF0000", "#FF5E00", "#FFBB00", "#FFE400", "#ABF200", "#1DDB16", "#00D8FF", "#0054FF", "#0100FF", "#5F00FF", "#FF00DD", "#FF007F", "#000000", "#FFFFFF",
         // "#FFD8D8", "#FAE0D4", "#FAECC5", "#FAF4C0", "#E4F7BA", "#CEFBC9", "#D4F4FA", "#D9E5FF", "#DAD9FF", "#E8D9FF", "#FFD9FA", "#FFD9EC", "#F6F6F6", "#EAEAEA",
         // "#FFA7A7", "#FFC19E", "#FFE08C", "#FAED7D", "#CEF279", "#B7F0B1", "#B2EBF4", "#B2CCFF", "#B5B2FF", "#D1B2FF", "#FFB2F5", "#FFB2D9", "#D5D5D5", "#BDBDBD",
@@ -42,12 +49,12 @@ class Visualizer extends Component {
             height: (radius * 2),
             background: 'rgb(32,32,32)',
         };
-        
-        for (let deg = 0, i = 0,color = 0; deg < circle; deg += step, i += 1, color++) { //degree 각도
+
+        for (let deg = 0, i = 0, color = 0; deg < circle; deg += step, i += 1, color++) { //degree 각도
             const x = radius * Math.cos(deg);
             const y = radius * Math.sin(deg);
             const rad = deg - 1.57;// minus 90deg
-        
+
 
             const styles = {//각 사운드바 스타일
                 left: x,
@@ -61,18 +68,31 @@ class Visualizer extends Component {
             visualObj.push(
                 <div key={i} style={styles} />,
             );
-            if(color === pallet.length-1){
+            if (color === pallet.length - 1) {
                 color = 0;
             }
         }
+
         return (
-            <div id="visualizer" className={this.props.class}>
-                <div id="innerCircle" style={circleStyle} />
-                <audio id="audio" 
-                src="track.mp3" 
-                autoPlay loop 
-                onLoadedData={this.props.handlePlay}/>
-                {visualObj}
+            <div id="visualmusic">
+                <div className="Volume">
+                    <input className="Volume_bar"
+                    type = 'range'
+                        min= '0'
+                        max = '1'
+                        step = '0.1'
+                        defaultValue = '0.5'
+                        onChange = {this.ChangeVolume}
+                    />
+                </div>
+                <div id="visualizer" className={this.props.class}>
+                    <div id="innerCircle" style={circleStyle} />
+                    <audio id="audio"
+                        src="Beck - Colors.mp3"
+                        autoPlay loop
+                        onLoadedData={this.props.handlePlay} />
+                    {visualObj}
+                </div>
             </div>
         );
     }
