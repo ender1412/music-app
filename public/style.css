@@ -57,6 +57,7 @@ p{
     transform: translate(-50%,-50%);
     text-align: center;
     border-radius: 200px;
+    
 }
 .LoginForm p{
     position: relative;
@@ -68,7 +69,7 @@ p{
     background: none;
     border-radius: 200px;
     border: solid;
-    border-color: aqua;
+    border-color: white;
     color: white;
     outline: none;/*클릭해도 테두리가안뜸*/
     height: 40px;
@@ -79,7 +80,7 @@ p{
 }
 
 .LoginForm input[type="text"]:focus,[type="password"]:focus{
-    border-color: green;
+    border-color: rgb(81, 250, 47);
 }
 
 .LoginForm input[type="submit"]{
@@ -128,64 +129,102 @@ p{
     border-radius: 100%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    box-shadow: 1px 1px 20px 15px rgb(255, 255, 255);
 }
-.Volume{
+.Login_Volume{
     position: absolute;
-    left: 1700px;
+    will-change: transform;
+    left: 80%;
+    top: 10%;
 }
-.Volume_bar input[type="range"]{
-    cursor: pointer;
-    width: 100%;
-}
-.Volume_bar input[type="range"]::-moz-range-thumb{
-    border : 1px solid #000000;
-    height: 26px;
-    width: 16px;
-    border-radius: 3px;
-    background: #ffffff;
-    cursor: pointer;
-}
+
+
 
 /*메인화면*/
 
 
 /*제작화면*/
-.audiodata{
-    position: relative;
-    display: block;
-    margin: 0,0,50px,0;
-    top: 100px;
-    left: 200px;
+.AudioPlayer{
+    position: absolute;
+    left: 300px;
+    top: 200px;
+
+    
 }
 
-.music-controller input[type="file"] {
+.Player_Frame{
+    border: solid;
+    border-color: white;  
+    width: 600px;
+    height: 200px;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.File_Input input[type="file"] {
     cursor: pointer;
 }
 
-.music-controller{
+.File_Input{
     position: absolute;
     top: 200px;
 }
 
-.music-controller button{
+.File_Input button{
     font-size: 30px;
 }
 
 .play_btn{
-    position: absolute;
-    left : 550px;
+    position: relative;
+    left : 200px;
+    top: 30px;
     background-color: rgba(0,0,0,0);
     border: none;
     outline: none;
 }
 
+.Player_Volume{
+    position: relative;
+    margin: 0px;
+    top : -10px;
+    left: 60px;
+}
+
 .playericon{
     font-size: 30px;
+    margin: 0px;
     color: rgb(108, 243, 108);
     
 }
 
+.misc_progress{
+    position: relative;
+    margin: 0px;
+    width: 500px;
+    left: 60px;
+    top: 40px;
+}
+.misc_title{
+    position: relative;
+    font-size: 20px;
+    margin: 0px;
+    top: 40px;
+    left: 20px;
+}
 
+.allplaybtn{
+    position: relative;
+    left : 400px;
+    bottom: 30px;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    outline: none;
+}
+
+.allplayericon{
+    font-size: 50px;
+    margin: 0px;
+    color: rgb(56, 111, 230);
+}
 /* 
 input[type="file"]{
     font-family: FontAwesome;

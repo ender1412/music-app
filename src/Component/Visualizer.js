@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import VolumeCtrl from './MusicCtrl/VolumeCtrl';
 //npm install react-slick
 //손으로 페이지넘기는 라이브러리
 //import Slider from 'react-slick';
@@ -17,9 +18,7 @@ class Visualizer extends Component {
 
         }
     }
-    ChangeVolume(e){
-        document.getElementById('audio').volume=e.target.value;
-    }
+
 
     render() {
         //색상팔레트
@@ -43,6 +42,7 @@ class Visualizer extends Component {
         const circle = this.props.settings.circle;
         const step = this.props.settings.circle / this.props.settings.objCount;
 
+        const audio_id = 'login_audio';
 
         const circleStyle = { //기본 원의 스타일
             width: (radius * 2),
@@ -59,7 +59,7 @@ class Visualizer extends Component {
             const styles = {//각 사운드바 스타일
                 left: x,
                 top: y,
-                height: 10 + (newData[i] * 0.5),
+                height: 10 + (newData[i] * 0.8),
                 width: objWidth,
                 backgroundColor: pallet[color],
                 transform: `rotate(${rad}rad)`,
@@ -75,19 +75,14 @@ class Visualizer extends Component {
 
         return (
             <div id="visualmusic">
-                <div className="Volume">
-                    <input className="Volume_bar"
-                    type = 'range'
-                        min= '0'
-                        max = '1'
-                        step = '0.1'
-                        defaultValue = '0.5'
-                        onChange = {this.ChangeVolume}
+                <div className="Login_Volume">
+                    <VolumeCtrl
+                        idvalue= {audio_id}
                     />
                 </div>
                 <div id="visualizer" className={this.props.class}>
                     <div id="innerCircle" style={circleStyle} />
-                    <audio id="audio"
+                    <audio id={audio_id}
                         src="Beck - Colors.mp3"
                         autoPlay loop
                         onLoadedData={this.props.handlePlay} />

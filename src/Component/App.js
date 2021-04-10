@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import jsmediatags from 'jsmediatags';//npm install jsmediatags --save 로 설치를해야함
-//import toast from 'siiimple-toast';//(예상)메세지를 이쁘게 띄우게해주는 역할
+//import siiimpleToast from 'siiimple-toast';//(예상)메세지를 이쁘게 띄우게해주는 역할
 //import 'siiimple-toast/dist/style.css';
 //npm install --save siiimple-toast 설치
 //npm install --save react-addons-update 설치
 import update from 'react-addons-update';//배열을 효율적으로 수정할수있게하는 기능
 //npm install --save axios
-import axios from 'axios'
+//import axios from 'axios'
 //리액트 라우터를 사용하기위함(다중페이지)
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Link, Switch } from 'react-router-dom';
+//npm install node-id3
+//import ID3 from 'node-id3';
 
 import Header from './Header';
 import LoginPage from './LoginPage';
@@ -97,20 +99,26 @@ class App extends Component {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const dataFile = URL.createObjectURL(file);
+      let playlist = this.state.playdata;
       //오디오 메타데이터를 읽어옴
       jsmediatags.read(file, {
         onSuccess: (tag) => {
           const tags = tag.tags;
           const tagTitle = tags.title;
-
-        }  
-      })
-      var playlist= this.state.playdata.concat(
-        {id:++this.max_music_id,src:dataFile}
-      );
-      this.setState({
-        playdata: playlist
+          
+        playlist= playlist.concat(
+            {id:++this.max_music_id,title:tagTitle,src:dataFile}
+            );
+          this.setState({
+            playdata: playlist
+          });
+        },
+        onError: ()=>{
+          console.log("no");
+        }
+        
       });
+
     }
   }
 
